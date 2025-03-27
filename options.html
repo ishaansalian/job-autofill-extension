@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Autofill Settings</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 600px; 
+            margin: 0 auto; 
+            padding: 20px; 
+        }
+        label { 
+            display: block; 
+            margin: 10px 0; 
+        }
+        input, textarea { 
+            width: 100%; 
+            padding: 5px; 
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+        .experience-entry, .education-entry { 
+            border: 1px solid #ddd; 
+            padding: 10px; 
+            margin-bottom: 10px; 
+            position: relative;
+        }
+        .remove-experience, .remove-education {
+            width: 100%;
+            padding: 10px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .remove-experience:hover, .remove-education:hover {
+            background-color: #d32f2f;
+        }
+        button { 
+            margin: 10px 0; 
+            padding: 10px; 
+            width: 100%;
+        }
+        .skill-templates {
+            margin-top: 10px;
+        }
+        .skill-template-btn {
+            margin: 5px;
+            padding: 5px 10px; 
+        }
+    </style>
+    <script src="options.js"></script>
+</head>
+<body>
+    <h2>Job Application Autofill Settings</h2>
+    
+    <h3>Personal Information</h3>
+    <label>Name: <input id="name" type="text"></label>
+    <label>Email: <input id="email" type="email"></label>
+    <label>Phone: <input id="phone" type="tel"></label>
+    <label>LinkedIn: <input id="linkedin" type="text"></label>
+    <label>Portfolio: <input id="portfolio" type="text"></label>
+
+    <h3>Work Experience</h3>
+    <div id="experienceList"></div>
+    <button id="addExperience">+ Add Experience</button>
+
+    <h3>Education</h3>
+    <div id="educationList"></div>
+    <button id="addEducation">+ Add Education</button>
+    
+    <label>Skills: 
+        <textarea id="skills" rows="4"></textarea>
+    </label>
+    
+    <div class="skill-templates">
+        <h4>Quick Skill Templates</h4>
+        <button type="button" class="skill-template-btn" data-template="software">Software Development</button>
+        <button type="button" class="skill-template-btn" data-template="design">UI/UX Design</button>
+        <button type="button" class="skill-template-btn" data-template="marketing">Digital Marketing</button>
+    </div>
+    <script>
+        // Add event listeners for skill templates
+        document.querySelectorAll('.skill-template-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const template = this.getAttribute('data-template');
+                const skillsTemplates = {
+                    software: "JavaScript, Python, React, Node.js, HTML5, CSS3, Git, REST APIs, SQL, MongoDB, TypeScript, Docker, AWS",
+                    design: "Figma, Adobe XD, Sketch, InVision, Photoshop, Wireframing, Prototyping, User Research, Interaction Design, Color Theory, Typography",
+                    marketing: "Google Analytics, SEO, Content Marketing, Social Media Marketing, Email Marketing, PPC Advertising, Hootsuite, Mailchimp, Facebook Ads, LinkedIn Ads, WordPress"
+                };
+                document.getElementById('skills').value = skillsTemplates[template];
+            });
+        });
+    </script>
+    <div>
+        <button id="save">Save Information</button>
+    </div>
+</body>
+</html>
