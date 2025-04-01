@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // New Autofill Skills Button
     const autofillSkillsBtn = document.createElement('button');
-    autofillSkillsBtn.textContent = '🎯 Autofill Skills';
+    autofillSkillsBtn.textContent = ' Autofill Skills';
     autofillSkillsBtn.style.marginTop = '10px';
     autofillSkillsBtn.addEventListener('click', function() {
         const skills = localStorage.getItem('skills') || '';
@@ -32,14 +32,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 skills: skills
             }, function(response) {
                 if (response && response.success) {
-                    autofillSkillsBtn.textContent = '✅ Skills Filled!';
+                    autofillSkillsBtn.textContent = ' Skills Filled!';
                     setTimeout(() => {
-                        autofillSkillsBtn.textContent = '🎯 Autofill Skills';
+                        autofillSkillsBtn.textContent = ' Autofill Skills';
                     }, 2000);
                 } else {
-                    autofillSkillsBtn.textContent = '❌ Could not find skills field';
+                    autofillSkillsBtn.textContent = ' Could not find skills field';
                     setTimeout(() => {
-                        autofillSkillsBtn.textContent = '🎯 Autofill Skills';
+                        autofillSkillsBtn.textContent = ' Autofill Skills';
                     }, 2000);
                 }
             });
@@ -53,7 +53,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const personalInfoIds = [
         "nameCopy", 
         "emailCopy", 
-        "phoneCopy", 
+        "phoneCopy",
+        "locationCopy",
         "linkedinCopy", 
         "portfolioCopy", 
         "skillsCopy"
@@ -69,14 +70,45 @@ document.addEventListener("DOMContentLoaded", function () {
         let div = document.createElement("div");
         div.classList.add("experience-entry");
         div.innerHTML = `
-            <div><strong>Job ${index + 1}:</strong></div>
+            <div><strong>${exp.title}</strong></div>
             <div>Title: <span class="copy-text">${exp.title || "No Title"}</span> <button class="copy-btn">📋</button></div>
             <div>Company: <span class="copy-text">${exp.company || "No Company"}</span> <button class="copy-btn">📋</button></div>
+            <div>Location: <span class="copy-text">${exp.location || "No Location"}</span> <button class="copy-btn">📋</button></div>
             <div>Dates: <span class="copy-text">${exp.dates || "No Dates"}</span> <button class="copy-btn">📋</button></div>
             <div>Description: <span class="copy-text">${exp.description || "No Description"}</span> <button class="copy-btn">📋</button></div>
             <hr>
         `;
         experienceList.appendChild(div);
+
+        // Add copy functionality to experience entry buttons
+        div.querySelectorAll(".copy-btn").forEach(button => {
+            button.addEventListener("click", function () {
+                let text = this.previousElementSibling.textContent.trim();
+                navigator.clipboard.writeText(text).then(() => {
+                    this.textContent = "✔"; // Indicate copied
+                    setTimeout(() => (this.textContent = "📋"), 1000);
+                }).catch(err => console.error("Copy failed:", err));
+            });
+        });
+    });
+
+    // Load and display education
+    let educationList = document.getElementById("educationList");
+    educationList.innerHTML = ""; // Clear previous entries
+    let savedEducation = JSON.parse(localStorage.getItem("education")) || [];
+
+    savedEducation.forEach((edu, index) => {
+        let div = document.createElement("div");
+        div.classList.add("education-entry");
+        div.innerHTML = `
+            <div><strong>${edu.school}</strong></div>
+            <div>School: <span class="copy-text">${edu.school || "No School"}</span> <button class="copy-btn">📋</button></div>
+            <div>Dates: <span class="copy-text">${edu.dates || "No Dates"}</span> <button class="copy-btn">📋</button></div>
+            <div>Degree: <span class="copy-text">${edu.degree|| "No Degree"}</span> <button class="copy-btn">📋</button></div>
+            <div>Major: <span class="copy-text">${edu.major || "No Major"}</span> <button class="copy-btn">📋</button></div>
+           <hr>
+        `;
+        educationList.appendChild(div);
 
         // Add copy functionality to experience entry buttons
         div.querySelectorAll(".copy-btn").forEach(button => {
