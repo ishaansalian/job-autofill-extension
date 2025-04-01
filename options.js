@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     // Function to add a new experience entry
-    function addExperienceEntry(title = '', company = '', dates = '', description = '') {
+    function addExperienceEntry(title = '', company = '', location = '', dates = '', description = '') {
         let experienceList = document.getElementById("experienceList");
         let entry = document.createElement("div");
         entry.classList.add("experience-entry");
@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="entry-content">
                 <input type="text" class="title" placeholder="Job Title" value="${title}">
                 <input type="text" class="company" placeholder="Company" value="${company}">
+                <input type="text" class="location" placeholder="Location" value="${location}">
                 <input type="text" class="dates" placeholder="Dates (e.g. Jan 2020 - Present)" value="${dates}">
                 <textarea class="description" placeholder="Job Description">${description}</textarea>
             </div>
@@ -74,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("save").addEventListener("click", function () {
         // Save personal info
         const personalFields = [
-            "name", "email", "phone", 
+            "name", "email", "phone", "location",
             "linkedin", "portfolio", "skills"
         ];
 
@@ -88,6 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
             experience.push({
                 title: entry.querySelector(".title").value,
                 company: entry.querySelector(".company").value,
+                location: entry.querySelector(".location").value,
                 dates: entry.querySelector(".dates").value,
                 description: entry.querySelector(".description").value
             });
@@ -111,7 +113,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Load saved personal info
     const personalFields = [
-        "name", "email", "phone", 
+        "name", "email", "phone", "location",
         "linkedin", "portfolio", "skills"
     ];
 
@@ -123,7 +125,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Load saved experience entries
     let savedExperience = JSON.parse(localStorage.getItem("experience")) || [];
     savedExperience.forEach(exp => {
-        addExperienceEntry(exp.title, exp.company, exp.dates, exp.description);
+        addExperienceEntry(exp.title, exp.company, exp.location, exp.dates, exp.description);
     });
 
     // Load saved education entries
